@@ -2,6 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const ejs = require('ejs');
 const path = require('path');
+const { isAsyncFunction } = require('util/types');
 
 // Set The Storage Engine
 const storage = multer.diskStorage({
@@ -23,12 +24,12 @@ const upload = multer({
 // Check File Type
 function checkFileType(file, cb){
   // Allowed ext
-  const filetypes = /jpeg|jpg|png|gif/;
+  const filetypes = /jpeg|jpg|png|webp|gif/;
   // Check ext
   const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
   // Check mime
   const mimetype = filetypes.test(file.mimetype);
-
+;
   if(mimetype && extname){
     return cb(null,true);
   } else {
@@ -71,3 +72,6 @@ app.post('/upload', (req, res) => {
 const port = 3000;
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
+
+
+
