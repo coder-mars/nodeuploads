@@ -12,27 +12,35 @@ app.set('view engine', 'ejs');
 
 // Public Folder
 app.use(express.static(path.join(__dirname,'public')));
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
 
-app.get('/', (req, res) => res.render('index'));
+
+
+app.get('/', (req, res) => res.render('index',{
+  files:[]
+}));
 
 
 app.post('/upload', (req, res) => {
-  console.log('hit');
+  
   upload(req, res, (err) => {
+    const  {files}=req;
+     
     if(err){
       console.log(err)
       res.render('index', {
         message: err
       });
     } else {
-      if(req.file == undefined){
+      if(files.length == 0){
         res.render('index', {
           message: 'Error: No File Selected!'
         });
       } else {
         res.render('index', {
           message: 'File Uploaded!',
-          file: `uploads/${req.file.filename}`
+          files
         });
       }
     }
