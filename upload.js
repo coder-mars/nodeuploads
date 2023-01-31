@@ -19,7 +19,7 @@ const upload = multer({
     fileFilter: function(req, file, cb){
       checkFileType(file, cb);
     }
-  }).array('photo',2)
+  })
   
 
   
